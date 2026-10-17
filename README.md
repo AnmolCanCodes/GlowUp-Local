@@ -212,15 +212,6 @@ These are potential improvement opportunities, not proof that the differences ca
                   REACT REPORT UI
 ```
 
-### Why not LangGraph in the first version?
-
-The initial workflow is mostly linear:
-
-`Validate → Discover → Compare → Analyze → Validate Output → Return Report`
-
-A regular Python service layer is easier to build, test, and debug for this workflow.
-
-LangGraph may become useful later for conditional workflows, retry strategies, persistent state, human approval, or recurring monitoring. It is not required simply because the application uses an LLM.
 
 ## Tech Stack
 
@@ -248,7 +239,7 @@ These technologies are not prerequisites for the initial MVP.
 ## Project Structure
 
 ```text
-kashi-growth-ai/
+GlowUp Local/
 ├── README.md
 ├── requirements.txt
 ├── .env.example
@@ -315,8 +306,8 @@ Install the following before running the project:
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/kashi-growth-ai.git
-cd kashi-growth-ai
+git clone https://github.com/AnmolCanCodes/GlowUp-Local.git
+cd GlowUp Local
 ```
 
 Replace the example repository URL with your actual GitHub repository.
@@ -430,7 +421,6 @@ The model must not be allowed to execute generated code or SQL.
 
 Privacy and responsible data handling are important because business owners may provide location and business information.
 
-- **Explicit location permission:** Request browser geolocation only after the owner chooses to use their current location.
 - **Manual fallback:** Allow address entry or map-pin selection if permission is denied.
 - **No continuous tracking:** A single location lookup is sufficient for the nearby competitor search.
 - **API key protection:** Keep provider credentials on the backend and restrict keys where supported.
