@@ -26,11 +26,11 @@ export function RecommendationCard({ recommendation: r, index }) {
 
       {open && (
         <div className="recommendation-body">
-          <p>{r.reason}</p>
+          <p className="recommendation-reason">{r.reason}</p>
 
           {r.evidence?.length > 0 && (
             <div className="evidence">
-              <span>Evidence</span>
+              <span>Supporting evidence</span>
               <ul>
                 {r.evidence.map((x, i) => (
                   <li key={i}>{x}</li>
@@ -40,7 +40,7 @@ export function RecommendationCard({ recommendation: r, index }) {
           )}
 
           <div className="action-steps">
-            <span>What to do</span>
+            <span>Implementation steps</span>
             <ol>
               {r.action_steps?.map((x, i) => (
                 <li key={i}>{x}</li>
@@ -50,12 +50,12 @@ export function RecommendationCard({ recommendation: r, index }) {
 
           {r.measurement && (
             <p className="measurement">
-              <b>What to observe:</b> {r.measurement}
+              <b>Success metric:</b> {r.measurement}
             </p>
           )}
 
           {r.confidence && (
-            <p className="confidence">Confidence: {r.confidence}</p>
+            <p className="confidence">Confidence level: {r.confidence}</p>
           )}
         </div>
       )}
@@ -88,7 +88,7 @@ export function ContentDrafts({ drafts = [] }) {
           <div className="draft-head">
             <div>
               <span className="eyebrow-small">
-                {(d.use_case || "content").replaceAll("_", " ")}
+                {(d.use_case || "content").replaceAll("_", " ").toUpperCase()}
               </span>
               <h3>{d.title}</h3>
             </div>

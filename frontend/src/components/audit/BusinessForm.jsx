@@ -141,8 +141,8 @@ export default function BusinessForm({ onSubmit, loading }) {
       <div className="form-section-heading">
         <span>01</span>
         <div>
-          <h2>About your business</h2>
-          <p>Start with the details customers use to find you.</p>
+          <h2>Business details</h2>
+          <p>Core information for competitor comparison.</p>
         </div>
       </div>
 
@@ -199,8 +199,8 @@ export default function BusinessForm({ onSubmit, loading }) {
       <div className="form-section-heading second">
         <span>02</span>
         <div>
-          <h2>More context</h2>
-          <p>Optional details make the comparison more useful.</p>
+          <h2>Additional context</h2>
+          <p>Optional information enhances analysis accuracy.</p>
         </div>
       </div>
 

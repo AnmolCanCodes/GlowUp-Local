@@ -14,10 +14,10 @@ export default function CompetitorTable({ competitors = [] }) {
       <div className="empty-state">
         <MapPin size={20} />
         <div>
-          <strong>No competitors returned</strong>
+          <strong>No competitors identified</strong>
           <p>
-            Try a broader category or nearby area. This does not mean there are
-            no competitors.
+            Try a broader category or nearby area. This absence does not indicate
+            no competitors exist in your market.
           </p>
         </div>
       </div>
