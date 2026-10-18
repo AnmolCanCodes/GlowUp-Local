@@ -49,6 +49,7 @@ export default function BusinessForm({ onSubmit, loading }) {
           latitude: String(coords.latitude),
           longitude: String(coords.longitude),
         }));
+        setErrors((s) => ({ ...s, latitude: "", longitude: "" }));
         setGeo("Coordinates added. Your address remains editable.");
       },
       (e) =>
@@ -121,6 +122,7 @@ export default function BusinessForm({ onSubmit, loading }) {
     <label className="field" key={k}>
       <span>
         {label}
+        {opts.required && <b className="required-mark"> *</b>}
         {opts.optional && <em>Optional</em>}
       </span>
       <input
@@ -139,19 +141,21 @@ export default function BusinessForm({ onSubmit, loading }) {
   return (
     <form className="business-form" onSubmit={submit} noValidate>
       <div className="form-section-heading">
-        <span>01</span>
         <div>
           <h2>Business details</h2>
-          <p>Core information for competitor comparison.</p>
+          <p>The basics we need to find your competitors.</p>
         </div>
       </div>
 
       <div className="form-grid">
         {field("business_name", "Business name", {
+          required: true,
           placeholder: "e.g. Ganga View Guest House",
         })}
         <label className="field">
-          <span>Business category</span>
+          <span>
+            Business category<b className="required-mark"> *</b>
+          </span>
           <select
             value={v.business_category}
             onChange={(e) => update("business_category", e.target.value)}
@@ -167,7 +171,9 @@ export default function BusinessForm({ onSubmit, loading }) {
           )}
         </label>
         <label className="field full">
-          <span>Address or area</span>
+          <span>
+            Address or area<b className="required-mark"> *</b>
+          </span>
           <input
             value={v.location}
             onChange={(e) => update("location", e.target.value)}
@@ -194,13 +200,17 @@ export default function BusinessForm({ onSubmit, loading }) {
             {geo}
           </p>
         )}
+        {(errors.latitude || errors.longitude) && (
+          <p className="field-error" role="alert" style={{ flexBasis: "100%", margin: 0 }}>
+            {errors.latitude || errors.longitude}
+          </p>
+        )}
       </div>
 
       <div className="form-section-heading second">
-        <span>02</span>
         <div>
-          <h2>Additional context</h2>
-          <p>Optional information enhances analysis accuracy.</p>
+          <h2>More about your business</h2>
+          <p>Optional. The more you share, the more specific the audit gets.</p>
         </div>
       </div>
 
@@ -264,8 +274,8 @@ export default function BusinessForm({ onSubmit, loading }) {
 
       <div className="form-footer">
         <p>
-          <span className="required-mark">*</span> Required fields. Your details are
-          used to run this audit.
+          <span className="required-mark">*</span> Required. Your details are only used
+          to run this audit.
         </p>
         <button className="button-primary" type="submit" disabled={loading}>
           {loading ? (

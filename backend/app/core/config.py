@@ -1,15 +1,25 @@
 """Application configuration loaded from environment variables."""
 
 from functools import lru_cache
+from pathlib import Path
 
-from pydantic import Field
+from pydantic import AliasChoices, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
     """Runtime settings. Credentials are optional until an integration is used."""
 
-    google_maps_api_key: str | None = Field(default=None, repr=False)
+    google_maps_api_key: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices(
+            "google_maps_api_key",
+            "GOOGLE_MAPS_API_KEY",
+            "google_map_api_key",
+            "GOOGLE_MAP_API_KEY",
+        ),
+        repr=False,
+    )
     hf_token: str | None = Field(default=None, repr=False)
     hf_model: str = "google/gemma-3-4b-it"
     frontend_origin: str = "http://localhost:5173"
@@ -18,7 +28,7 @@ class Settings(BaseSettings):
     request_timeout_seconds: float = Field(default=20.0, gt=0, le=60)
 
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=str(Path(__file__).resolve().parents[3] / ".env"),
         env_file_encoding="utf-8",
         extra="ignore",
         case_sensitive=False,

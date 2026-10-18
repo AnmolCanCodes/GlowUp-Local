@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Copy, ChevronDown, ChevronUp } from "lucide-react";
 
+const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s);
+
 export function RecommendationCard({ recommendation: r, index }) {
   const [open, setOpen] = useState(index === 0);
   const p = r.priority || "medium";
@@ -12,13 +14,11 @@ export function RecommendationCard({ recommendation: r, index }) {
         onClick={() => setOpen((x) => !x)}
         aria-expanded={open}
       >
-        <span className="recommendation-index">
-          {String(index + 1).padStart(2, "0")}
-        </span>
+        <span className="recommendation-index">{index + 1}</span>
         <span className="recommendation-title">
           <strong>{r.title}</strong>
           <small className={`priority priority-${p}`}>
-            {p} priority · {r.effort || "effort not specified"} effort
+            {cap(p)} priority, {r.effort || "unspecified"} effort
           </small>
         </span>
         {open ? <ChevronUp size={17} /> : <ChevronDown size={17} />}
@@ -55,7 +55,7 @@ export function RecommendationCard({ recommendation: r, index }) {
           )}
 
           {r.confidence && (
-            <p className="confidence">Confidence level: {r.confidence}</p>
+            <p className="confidence">Confidence: {r.confidence}</p>
           )}
         </div>
       )}
@@ -88,7 +88,7 @@ export function ContentDrafts({ drafts = [] }) {
           <div className="draft-head">
             <div>
               <span className="eyebrow-small">
-                {(d.use_case || "content").replaceAll("_", " ").toUpperCase()}
+                {cap((d.use_case || "content").replaceAll("_", " "))}
               </span>
               <h3>{d.title}</h3>
             </div>

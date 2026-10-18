@@ -9,10 +9,10 @@ import {
   ShieldCheck,
   MapPin,
 } from "lucide-react";
-import { createAudit } from "../api";
-import BusinessForm from "../components/audit/BusinessForm";
-import CompetitorTable from "../components/audit/CompetitorTable";
-import { RecommendationCard, ContentDrafts } from "../components/audit/RecommendationCard";
+import { createAudit } from "../api.js";
+import BusinessForm from "../components/BusinessForm.jsx";
+import CompetitorTable from "../components/CompetitorTable.jsx";
+import { RecommendationCard, ContentDrafts } from "../components/RecommendationCard.jsx";
 
 function Metric({ label, metric, suffix = "" }) {
   const fmt = (n) =>
@@ -52,17 +52,18 @@ function Report({ report: r, onReset }) {
           <ArrowLeft size={15} /> New audit
         </button>
         <span className="report-date">
-          MARKET INTELLIGENCE REPORT · {new Date(r.generated_at).toLocaleDateString()}
+          Report generated {new Date(r.generated_at).toLocaleDateString()}
         </span>
       </div>
 
       <header className="report-heading">
         <div>
-          <span className="eyebrow">LOCAL MARKET ANALYSIS / VARANASI</span>
+          <span className="eyebrow">Local market analysis</span>
           <h1>{r.business_name}</h1>
           <p>
             <MapPin size={14} />
-            {r.location_searched} <span>·</span> {r.business_category}
+            <span>{r.location_searched}</span>
+            <span>{r.business_category}</span>
           </p>
         </div>
         <span className={`audit-status ${partial ? "status-partial" : ""}`}>
@@ -72,18 +73,18 @@ function Report({ report: r, onReset }) {
 
       <section className="report-overview">
         <div className="overview-main">
-          <span className="eyebrow-small">MARKET LANDSCAPE</span>
+          <span className="eyebrow-small">Nearby competitors</span>
           <strong className="competitor-total">
             {r.comparison?.competitor_count ?? r.competitors?.length ?? 0}
           </strong>
-          <p>nearby businesses identified</p>
+          <p>businesses identified</p>
         </div>
         <div className="overview-copy">
-          <h2>Your competitive position in context.</h2>
+          <h2>How you compare with nearby businesses</h2>
           <p>
-            This analysis compares publicly available information for your business
-            against nearby competitors. It identifies observable gaps and opportunities,
-            not search rankings or service quality judgments.
+            This report compares publicly available information for your business
+            against nearby competitors. It points out visible gaps and opportunities.
+            It does not measure search rankings or service quality.
           </p>
         </div>
       </section>
@@ -91,7 +92,6 @@ function Report({ report: r, onReset }) {
       <section className="report-section">
         <div className="section-heading">
           <div>
-            <span className="eyebrow-small">01 / COMPETITOR LANDSCAPE</span>
             <h2>Nearby businesses</h2>
           </div>
           <span className="section-count">{r.competitors?.length || 0} identified</span>
@@ -102,8 +102,7 @@ function Report({ report: r, onReset }) {
       <section className="report-section">
         <div className="section-heading">
           <div>
-            <span className="eyebrow-small">02 / COMPARATIVE ANALYSIS</span>
-            <h2>Performance metrics</h2>
+            <h2>Ratings, reviews and distance</h2>
           </div>
         </div>
         <div className="comparison-grid">
@@ -138,9 +137,8 @@ function Report({ report: r, onReset }) {
       <section className="report-section recommendations-section">
         <div className="section-heading">
           <div>
-            <span className="eyebrow-small">03 / STRATEGIC RECOMMENDATIONS</span>
-            <h2>Priority actions</h2>
-            <p>Evidence-based improvements ranked by impact and effort.</p>
+            <h2>What to do first</h2>
+            <p>Ranked by expected impact and the effort needed.</p>
           </div>
           <span className="section-count">{r.recommendations?.length || 0} actions</span>
         </div>
@@ -157,9 +155,8 @@ function Report({ report: r, onReset }) {
         <section className="report-section">
           <div className="section-heading">
             <div>
-              <span className="eyebrow-small">04 / CONTENT ASSETS</span>
               <h2>Draft content</h2>
-              <p>Editable drafts for your website or business listings.</p>
+              <p>Editable drafts for your website or business listings. Review before publishing.</p>
             </div>
           </div>
           <ContentDrafts drafts={r.content_drafts} />
@@ -169,9 +166,9 @@ function Report({ report: r, onReset }) {
       <section className="disclosure">
         <ShieldCheck size={19} />
         <div>
-          <h3>Sources, gaps & limitations</h3>
+          <h3>Sources, gaps and limitations</h3>
           <p>
-            <b>Sources:</b> {(r.data_sources || []).join(" · ") || "Not specified"}
+            <b>Sources:</b> {(r.data_sources || []).join(", ") || "Not specified"}
           </p>
           {r.missing_data_notes?.map((x, i) => (
             <p key={`m${i}`}>{x}</p>
@@ -183,7 +180,9 @@ function Report({ report: r, onReset }) {
       </section>
 
       <footer className="report-footer">
-        <span>GLOWUP LOCAL <i>·</i> VARANASI</span>
+        <span>
+          GlowUp Local <i>·</i> Varanasi
+        </span>
         <button className="text-button" onClick={onReset}>
           Run another audit <ArrowUpRight size={14} />
         </button>
@@ -233,14 +232,14 @@ export default function AuditPage() {
     <div className="app-shell">
       <nav className="top-nav">
         <a href="/" className="brand">
-          <span className="brand-mark">G.</span>
+          <span className="brand-mark">G</span>
           <span>
-            glowup<span className="brand-light">local</span>
+            GlowUp <span className="brand-light">Local</span>
           </span>
         </a>
         <div className="nav-right">
           <span>
-            <i /> BUILT FOR VARANASI BUSINESSES
+            <i /> Built for Varanasi businesses
           </span>
           <a href="#how-it-works">How it works</a>
         </div>
@@ -249,44 +248,49 @@ export default function AuditPage() {
       <main className="landing">
         <section className="intro">
           <div className="intro-copy">
-            <span className="eyebrow">
-              <span className="eyebrow-line" /> LOCAL MARKET INTELLIGENCE · VARANASI
-            </span>
+            <span className="eyebrow">Local market intelligence for Varanasi</span>
             <h1>
               Understand your competition.<br />
-              <em>Strengthen your position.</em>
+              Strengthen your position.
             </h1>
             <p>
-              Compare your business against nearby competitors and discover practical
-              improvements to your online presence based on real data.
+              Compare your business against nearby competitors and get practical
+              improvements to your online presence, based on real listing data.
             </p>
             <div className="intro-meta">
               <span>
-                <CheckCircle2 size={14} /> Data-driven comparisons
+                <CheckCircle2 size={16} /> Data-driven comparisons
               </span>
               <span>
-                <Activity size={14} /> Actionable insights
+                <Activity size={16} /> Actionable insights
               </span>
             </div>
           </div>
           <aside className="intro-aside">
-            <span className="aside-index">FIELD NOTE / 001</span>
-            <div className="aside-rule" />
-            <p>Strategic decisions require clear visibility into your local market.</p>
-            <span className="aside-foot">MARKET INTELLIGENCE REPORT</span>
+            <h2>What you get</h2>
+            <ul className="intro-points">
+              <li>
+                <strong>Nearby competitors</strong>
+                <span>Businesses around your location, found through Google Places.</span>
+              </li>
+              <li>
+                <strong>Side-by-side comparison</strong>
+                <span>Rating, review count and distance, calculated before any AI is involved.</span>
+              </li>
+              <li>
+                <strong>A short action list</strong>
+                <span>Fixes ranked by impact and effort, each with clear steps.</span>
+              </li>
+            </ul>
           </aside>
         </section>
 
         <section className="workflow" id="audit-form">
           <div className="workflow-heading">
             <div>
-              <span className="eyebrow-small">BEGIN YOUR ANALYSIS</span>
-              <h2>Enter your business details.</h2>
-              <p>Basic information to compare against nearby competitors.</p>
+              <h2>Enter your business details</h2>
+              <p>We use these to find and compare nearby competitors.</p>
             </div>
-            <span className="step-label">
-              01 <i>/</i> 01
-            </span>
           </div>
 
           {error && (
@@ -323,24 +327,26 @@ export default function AuditPage() {
           <div>
             <FileSearch size={18} />
             <strong>Public data sources</strong>
-            <p>Competitor information sourced from Google Places API.</p>
+            <p>Competitor information comes from the Google Places API.</p>
           </div>
           <div>
             <Activity size={18} />
-            <strong>Deterministic analysis</strong>
-            <p>Comparisons calculated independently before AI interpretation.</p>
+            <strong>Calculated before AI</strong>
+            <p>Comparisons are computed first, then the AI explains what they mean.</p>
           </div>
           <div>
             <ShieldCheck size={18} />
-            <strong>Evidence-based insights</strong>
-            <p>No ranking guarantees or invented metrics—only observable facts.</p>
+            <strong>Evidence-based</strong>
+            <p>No ranking guarantees or invented metrics, only what is visible in the data.</p>
           </div>
         </section>
       </main>
 
       <footer className="site-footer">
-        <span>GLOWUP LOCAL <i>·</i> VARANASI, INDIA</span>
-        <span>LOCAL KNOWLEDGE. BETTER BUSINESS DECISIONS.</span>
+        <span>
+          GlowUp Local <i>·</i> Varanasi, India
+        </span>
+        <span>Local knowledge for better business decisions.</span>
       </footer>
     </div>
   );
